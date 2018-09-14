@@ -1,0 +1,32 @@
+{
+  "name": "dog-ceo-platzi-bot",
+  "version": "0.1.0",
+  "description": "Messenger Bot with Dog CEO API Images - Platzi Tutorial",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Juan David Castro <me@juandc.co> (@juandc)",
+  "license": "MIT",
+  "keywords": [
+    "messenger-bot",
+    "fb-bot",
+    "platzi",
+    "platzi-challenge",
+    "dog-api",
+    "dog-ceo"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juandc/dog-ceo-platzi-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/juandc/dog-ceo-platzi-bot/issues"
+  },
+  "homepage": "https://github.com/juandc/dog-ceo-platzi-bot#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "request": "^2.88.0"
+  }
+}
