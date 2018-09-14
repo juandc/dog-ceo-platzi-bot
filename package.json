@@ -4,7 +4,8 @@
   "description": "Messenger Bot with Dog CEO API Images - Platzi Tutorial",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "Juan David Castro <me@juandc.co> (@juandc)",
   "license": "MIT",
@@ -28,5 +29,8 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
   }
 }

@@ -16,7 +16,9 @@ app.set('port', PORT);
 app.use(bodyParser.json());
 
 // Express Routes
-app.get('/', function (req, res) { res.send('Hello PlatziBot!'); });
+app.get('/', function (req, res) {
+  res.send('Hello PlatziBot!');
+});
 
 app.get('/webhook', function (req, res) {
   const token = req.query[hub.verify_token];
