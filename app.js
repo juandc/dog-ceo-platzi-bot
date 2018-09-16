@@ -51,6 +51,14 @@ function handleEvent(event) {
   if (event.postback) return handlePostback(senderId, event.postback);
 }
 
+function handlePostback(id, postback) {
+  const { title, payload } = postback;
+
+  if (payload === 'ABOUT_PAYLOAD') return aboutMessage(id);
+  if (payload === 'RANDOM_PAYLOAD') return randomImage(id);
+  if (payload.endsWith('_BREED_PAYLOAD')) return breedImage(id, title);
+}
+
 // Corremos el servidor :D
 app.listen(app.get('port'), function () {
   console.log('Node app is running on port', app.get('port'));
