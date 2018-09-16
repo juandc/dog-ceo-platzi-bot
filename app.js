@@ -10,7 +10,7 @@ const { PORT = 5000, NODE_ENV = 'development' } = process.env;
 const ACCESS_TOKEN = 'Nuestro Token de Facebook';
 const FACEBOOK_URI = 'https://graph.facebook.com/v2.6/me/messages';
 const API = {
-  breed: breed => `https://dog.ceo/api/breed/${breed}/images`,
+  breed: breed => `https://dog.ceo/api/breed/${breed}/images/random/1`,
   random: 'https://dog.ceo/api/breeds/image/random',
 };
 
@@ -60,7 +60,7 @@ function handlePostback(id, postback) {
 }
 
 function breedImage(id, title) {
-  const data = { uri: API.breed(title) };
+  const data = { uri: API.breed(title.toLowerCase()) };
 
   request(data, function (err, res, body) {
     if (err) return console.log(err);
