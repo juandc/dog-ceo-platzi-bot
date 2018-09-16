@@ -24,6 +24,26 @@ app.get('/', function (req, res) {
   res.send('Hello World!');
 });
 
+// Verificación, sólo vamos a utilizar esta ruta 1 vez
+app.get('/webhook', function (req, res) {
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+
+  if (token === 'Token de verificación de Facebook') res.send(challenge);
+  else res.send('Ups! You need to provide the correct token.');
+});
+
+// Facebook entra a esta ruta cada vez que
+// nuestros usuarios envían un mensaje
+app.post('/webhook/', function (req, res) {
+  const events = req.body.entry[0].messaging;
+  if (!events) return res.sendStatus(404);
+  // Por cada mensaje llamamos a la función "handleEvent"
+  events.forEach(handleEvent);
+  res.sendStatus(200);
+});
+
+
 // Corremos el servidor :D
 app.listen(app.get('port'), function () {
   console.log('Node app is running on port', app.get('port'));
