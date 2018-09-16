@@ -43,6 +43,13 @@ app.post('/webhook/', function (req, res) {
   res.sendStatus(200);
 });
 
+function handleEvent(event) {
+  const senderId = event.sender.id;
+
+  // No vamos a responder mensajes de texto, solo las acciones del menú
+  // if (event.message) return handleMessage(senderId, event.message);
+  if (event.postback) return handlePostback(senderId, event.postback);
+}
 
 // Corremos el servidor :D
 app.listen(app.get('port'), function () {
