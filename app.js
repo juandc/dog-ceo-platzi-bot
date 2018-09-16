@@ -59,6 +59,61 @@ function handlePostback(id, postback) {
   if (payload.endsWith('_BREED_PAYLOAD')) return breedImage(id, title);
 }
 
+function breedImage(id, title) {
+  const data = { uri: API.breed(title) };
+
+  request(data, function (err, res, body) {
+    if (err) return console.log(err);
+
+    const message = {
+      "recipient": { "id": id },
+      "message": {
+        "attachment": {
+          "type": "image",
+          "payload": {
+            "url": body.message[0],
+          },
+        },
+      }
+    };
+
+    return sendMessage(message);
+  })
+}
+
+function randomImage(id) {
+  const data = { uri: API.random };
+
+  request(data, function (err, res, body) {
+    if (err) return console.log(err);
+
+    const message = {
+      "recipient": { "id": id },
+      "message": {
+        "attachment": {
+          "type": "image",
+          "payload": {
+            "url": body.message,
+          },
+        },
+      }
+    };
+
+    return sendMessage(message);
+  })
+}
+
+function aboutMessage(id) {
+  const message = {
+    "recipient": { "id": id },
+    "message": {
+      "text": "👋 ¡Hola! 🤖 Soy un bot de messenger. Es mejor usar el menú 👇"
+    }
+  };
+
+  return sendMessage(message);
+}
+
 // Corremos el servidor :D
 app.listen(app.get('port'), function () {
   console.log('Node app is running on port', app.get('port'));
