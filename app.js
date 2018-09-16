@@ -114,6 +114,21 @@ function aboutMessage(id) {
   return sendMessage(message);
 }
 
+function sendMessage(message) {
+  const data = {
+    "uri": FACEBOOK_URI,
+    "qs": { "access_token": ACCESS_TOKEN },
+    "method": "POST",
+    "json": message,
+  };
+
+  request(data, function (err) {
+    if (err) return console.log('Ha ocurrido un error')
+    return console.log('Mensaje enviado')
+  }
+  );
+}
+
 // Corremos el servidor :D
 app.listen(app.get('port'), function () {
   console.log('Node app is running on port', app.get('port'));
