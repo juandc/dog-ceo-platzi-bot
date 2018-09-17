@@ -7,7 +7,7 @@ const request = require('request');
 
 // Algunas cosas que necesitaremos más adelante...
 const { PORT = 5000, NODE_ENV = 'development' } = process.env;
-const ACCESS_TOKEN = 'Nuestro Token de Facebook';
+const ACCESS_TOKEN = 'EAAddK1PkUaABAKNxZBRn83ofhZC3btFmKNmm8R6eoZCoruMG6u9fVAHph6YgRdrlayTKKKInPF5WlhqZA6KBuxY6vugNy5PpzEu96sZBCcIQr8zO1397kYVI2le8AjI4GrzL1Yb3H07ldthTmMOjA7o7b2Ukm0d4s4KZCAMW8i9tZAYOex9ZBmaH1a0i3vab2rsZD';
 const FACEBOOK_URI = 'https://graph.facebook.com/v2.6/me/messages';
 const API = {
   breed: breed => `https://dog.ceo/api/breed/${breed}/images/random/1`,
@@ -54,7 +54,8 @@ function handleEvent(event) {
 function handlePostback(id, postback) {
   const { title, payload } = postback;
 
-  if (payload === 'ABOUT_PAYLOAD') return aboutMessage(id);
+  if (payload === 'ABOUT_PAYLOAD' || payload === 'GET_STARTED_PAYLOAD')
+    return aboutMessage(id);
   if (payload === 'RANDOM_PAYLOAD') return randomImage(id);
   if (payload.endsWith('_BREED_PAYLOAD')) return breedImage(id, title);
 }
@@ -65,13 +66,15 @@ function breedImage(id, title) {
   request(data, function (err, res, body) {
     if (err) return console.log(err);
 
+    const image = JSON.parse(body).message[0];
+
     const message = {
       "recipient": { "id": id },
       "message": {
         "attachment": {
           "type": "image",
           "payload": {
-            "url": body.message[0],
+            "url": image,
           },
         },
       }
@@ -87,13 +90,15 @@ function randomImage(id) {
   request(data, function (err, res, body) {
     if (err) return console.log(err);
 
+    const image = JSON.parse(body).message;
+
     const message = {
       "recipient": { "id": id },
       "message": {
         "attachment": {
           "type": "image",
           "payload": {
-            "url": body.message,
+            "url": image,
           },
         },
       }
@@ -133,3 +138,60 @@ function sendMessage(message) {
 app.listen(app.get('port'), function () {
   console.log('Node app is running on port', app.get('port'));
 });
+
+// curl -X POST -H "Content-Type: application/json" -d '{
+// "get_started": {
+//   "payload": "GET_STARTED_PAYLOAD"
+// }
+// }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=TOKEN_DE_FACEBOOK"
+
+// curl -X POST -H "Content-Type: application/json" -d '{
+// "greeting": [
+//   {
+//     "locale": "default",
+//     "text": "Hello {{user_first_name}}!"
+//   }
+// ]
+// }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=TOKEN_DE_FACEBOOK"
+
+// curl -X POST -H "Content-Type: application/json" -d '{
+// "persistent_menu": [{
+//   "locale": "default",
+//   "composer_input_disabled": false,
+//   "call_to_actions": [
+//     {
+//       "title": "🐶 Razas disponibles",
+//       "type": "nested",
+//       "call_to_actions": [
+//         {
+//           "title": "Affenpinscher",
+//           "type": "postback",
+//           "payload": "AFFENPINSCHER_BREED_PAYLOAD"
+//         },
+//         {
+//           "title": "African",
+//           "type": "postback",
+//           "payload": "AFRICAN_BREED_PAYLOAD"
+//         },
+//         {
+//           "title": "Airedale",
+//           "type": "postback",
+//           "payload": "AIREDALE_BREED_PAYLOAD"
+//         }
+//       ]
+//     },
+//     {
+//       "title": "🔁 Perrito Random",
+//       "type": "postback",
+//       "payload": "RANDOM_PAYLOAD"
+//     },
+//     {
+//       "title": "💚 Sobre Nosotros",
+//       "type": "postback",
+//       "payload": "ABOUT_PAYLOAD"
+//     }
+//   ]
+// }]
+// }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=TOKEN_DE_FACEBOOK"
+
+
