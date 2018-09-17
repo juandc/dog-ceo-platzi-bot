@@ -7,7 +7,7 @@ const request = require('request');
 
 // Algunas cosas que necesitaremos más adelante...
 const { PORT = 5000, NODE_ENV = 'development' } = process.env;
-const ACCESS_TOKEN = 'EAAddK1PkUaABAKNxZBRn83ofhZC3btFmKNmm8R6eoZCoruMG6u9fVAHph6YgRdrlayTKKKInPF5WlhqZA6KBuxY6vugNy5PpzEu96sZBCcIQr8zO1397kYVI2le8AjI4GrzL1Yb3H07ldthTmMOjA7o7b2Ukm0d4s4KZCAMW8i9tZAYOex9ZBmaH1a0i3vab2rsZD';
+const ACCESS_TOKEN = 'Nuestro Token de Facebook';
 const FACEBOOK_URI = 'https://graph.facebook.com/v2.6/me/messages';
 const API = {
   breed: breed => `https://dog.ceo/api/breed/${breed}/images/random/1`,
